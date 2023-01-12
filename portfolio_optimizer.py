@@ -16,14 +16,10 @@ def p_optimizer(tickers, start, end, returns_only=False):
     # # Tickers of assets
     # my_etfs= ['AGG', 'SPY', 'VDE']
 
-    if len(tickers) > 10:
-        'Too many tickers selected, please reduce to <= 20.'
-        return
-
     # Downloading data for stock portfolio
     data = yf.download(tickers, start = start, end = end)
     data = data.loc[:,('Adj Close', slice(None))]
-    data.columns = tickers
+    data.columns = list(tickers)
 
     #Calculating and display returns for each asset
     asset_returns = data[tickers].pct_change().dropna()

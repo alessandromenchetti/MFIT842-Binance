@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 import yfinance as yf
@@ -32,7 +33,7 @@ def mc_opt(mv, returns, weights):
         return S, t
 
     # returns = asset_returns
-    returns
+    # returns
 
     cov_mat = 252*returns.cov()
     mu = np.mean(returns, axis=0).values*252  # Annualise the daily values
@@ -60,11 +61,11 @@ def mc_opt(mv, returns, weights):
 
     Simulated_Paths[0, :, :] = assets
 
-    sim_prog = st.progress(1)
+    # sim_prog = st.progress(1)
 
     for k in range(1, N_SIMS):
-        if k % 100 == 0:
-            sim_prog.progress(k / 10000 + 1 / 100)
+        # if k % N_SIMS / 100 == 0:
+        #     sim_prog.progress(k / N_SIMS + 1 / N_SIMS * 100)
         seed = int(np.random.uniform(1, 2 ** 32 - 1, 1))
         Simulated_Paths[k, :, :] = GBMsimulator(seed, S0, mu, sigma, cov_mat, T, N_steps)[0]
 
@@ -74,10 +75,22 @@ def mc_opt(mv, returns, weights):
     # display(Simul_Last_Portf_Values.shape)
     X = pd.DataFrame(Simul_Last_Values).sum(axis=1)
 
+
     print('Portfolio Value Histogram:')
-    pl.figure()
-    pl.hist(X,bins=100, density=True, stacked=True)
+    # ax.figure()
+    # ax.hist(X,bins=100, density=True, stacked=True)
+    # ax.xlabel('Portfolio Value')
+    # ax.ylabel('Probability Density Function')
+    # # pl.show()
+    # st.pyplot(pl.show())
+
+    fig, ax = plt.subplots()
+    ax.hist(X,bins=100, density=True, stacked=True)
     pl.xlabel('Portfolio Value')
     pl.ylabel('Probability Density Function')
-    # pl.show()
-    st.pyplot(pl.show())
+    c1, c2, c3 = st.columns([1, 1, 1])
+
+    with c2:
+        st.pyplot(fig)
+        st.write('The average value of your portfolio in 3 years based off of this simulation is: ' + str(np.mean(X)))
+
