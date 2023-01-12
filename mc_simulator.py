@@ -24,7 +24,7 @@ def mc_opt(mv, returns, weights):
         t = np.linspace(0., T, int(N))
         A = np.linalg.cholesky(Cov)
         S = np.zeros([dim, int(N)])
-        S[:, 0] = So
+        S[:, 0] = So['weights']
         for i in range(1, int(N)):
             drift = (mu - 0.5 * sigma**2) * (t[i] - t[i-1])
             Z = np.random.normal(0., 1., dim)

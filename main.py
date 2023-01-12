@@ -263,7 +263,7 @@ if 'sel' in st.session_state:
 
 
             if st.button('Simulate Portfolio Performance'):
-                mc_opt(mv, returns, weights*mv)
+                mc_opt(mv, returns, weights)
 
 else:
     st.write('Please select at least 1 ETF')
